@@ -1,0 +1,108 @@
+<style>
+  .search-form {
+    width: fit-content;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+  }
+
+  .search-form:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    transform: translateY(-0.2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .search-bar {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 30px;
+    padding: 0.3rem 0.6rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    gap: 0.7rem;
+    font-size: 0.9rem;
+  }
+
+  .search-info {
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    cursor: pointer;
+  }
+
+  .divider {
+    height: 18px;
+    width: 1px;
+    background-color: #ccc;
+    cursor: pointer;
+  }
+
+  .search-btn {
+    background-color: #fe424d;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .search-btn i {
+    font-size: 0.7rem;
+  }
+
+  .search-btn:hover {
+    background-color: #fe424d;
+  }
+</style>
+
+<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/listings"
+      ><i class="fa-regular fa-compass"></i
+    ></a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNavAltMarkup"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link" href="/listings">Explore</a>
+      </div>
+      <div class="navbar-nav ms-auto justify-content-center">
+        <form class="d-flex search-form" role="search">
+          <div class="search-bar">
+            <div class="search-info">
+              <i class="fa-solid fa-house"></i> Anywhere
+            </div>
+            <div class="divider"></div>
+            <div class="search-info">Anytime</div>
+            <div class="divider"></div>
+            <div class="search-info">Add guests</div>
+            <button class="search-btn" type="submit">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link" href="/listings/new">Airbnb your home</a>
+        <% if (!currUser) { %>
+        <a class="nav-link" href="/signup"><b>Sign up</b></a>
+        <a class="nav-link" href="/login"><b>Login</b></a>
+        <% } %> <% if (currUser) { %>
+        <a class="nav-link" href="/logout"><b>Log out</b></a>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</nav>
