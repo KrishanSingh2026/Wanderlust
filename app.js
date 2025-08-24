@@ -42,47 +42,6 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
-app.get("/check-css-content", (req, res) => {
-  const fs = require("fs");
-  const path = require("path");
-
-  try {
-    const publicPath = path.join(__dirname, "public");
-    const cssPath = path.join(publicPath, "css");
-    const stylePath = path.join(cssPath, "style.css");
-    const ratingPath = path.join(cssPath, "rating.css");
-
-    const result = {
-      publicExists: fs.existsSync(publicPath),
-      cssExists: fs.existsSync(cssPath),
-      styleExists: fs.existsSync(stylePath),
-      ratingExists: fs.existsSync(ratingPath),
-    };
-
-    if (result.styleExists) {
-      const styleContent = fs.readFileSync(stylePath, "utf8");
-      result.styleContent = {
-        length: styleContent.length,
-        preview: styleContent.substring(0, 200),
-        isEmpty: styleContent.trim().length === 0,
-      };
-    }
-
-    if (result.ratingExists) {
-      const ratingContent = fs.readFileSync(ratingPath, "utf8");
-      result.ratingContent = {
-        length: ratingContent.length,
-        preview: ratingContent.substring(0, 200),
-        isEmpty: ratingContent.trim().length === 0,
-      };
-    }
-
-    res.json(result);
-  } catch (err) {
-    res.json({ error: err.message });
-  }
-});
-
 const store = MongoStore.create({
   mongoUrl: dbUrl,
   crypto: {
