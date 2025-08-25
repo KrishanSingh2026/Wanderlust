@@ -135,6 +135,9 @@ const assignCategory = (listing) => {
   return "Trending"; // Default category
 };
 
+// Add delay between geocoding requests for OpenCage rate limiting
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const initDB = async () => {
   try {
     await Listing.deleteMany({});
