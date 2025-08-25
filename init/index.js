@@ -9,19 +9,18 @@ require("dotenv").config({ path: "../.env" });
 // Import geocoder AFTER loading env variables
 const Geocoder = require("../utils/geocoder.js");
 
-const MONGO_URL =
-  process.env.MONGO_URL || "mongodb://127.0.0.1:27017/wanderlust";
+const dbUrl = process.env.ATLASDB_URL;
 
 main()
   .then(() => {
-    console.log(" Connected to Local MongoDB");
+    console.log(" Connected to AtlasDB");
   })
   .catch((err) => {
-    console.log(" MongoDB connection error:", err);
+    console.log(" AtlasDB connection error:", err);
   });
 
 async function main() {
-  await mongoose.connect(MONGO_URL);
+  await mongoose.connect(dbUrl);
 }
 
 // Function to assign categories based on listing content
