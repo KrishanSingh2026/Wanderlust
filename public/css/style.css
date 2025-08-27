@@ -411,8 +411,105 @@ body {
   }
 
   .navbar-collapse {
-    left: 0.75rem;
-    right: 0.75rem;
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: white !important;
+    z-index: 9999 !important;
+    padding: 80px 0 20px 0;
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    overflow-y: auto;
+  }
+
+  .navbar-nav {
+    flex-direction: column !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    background: white;
+  }
+
+  .nav-link {
+    display: block !important;
+    width: 100% !important;
+    padding: 20px 30px !important;
+    margin: 0 !important;
+    border: none !important;
+    border-bottom: 1px solid #f0f0f0 !important;
+    background: white !important;
+    color: #222222 !important;
+    font-size: 18px !important;
+    font-weight: 500 !important;
+    text-align: left !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+  }
+
+  /* Last link - no bottom border */
+  .nav-link:last-child {
+    border-bottom: none !important;
+  }
+
+  /* Hover effect */
+  .nav-link:hover {
+    background: #f8f9fa !important;
+    color: #fe424d !important;
+    padding-left: 40px !important;
+  }
+
+  .nav-link b {
+    font-weight: 600 !important;
+  }
+
+  /* Clean up any other elements that might interfere */
+  .navbar-nav .nav-item {
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  /* Ensure proper spacing for the navbar brand */
+  .navbar {
+    padding: 15px 20px !important;
+    height: auto !important;
+    min-height: 60px !important;
+  }
+
+  /* Style the hamburger button */
+  .navbar-toggler {
+    padding: 8px 12px !important;
+    border: 1px solid #ddd !important;
+    border-radius: 6px !important;
+    background: white !important;
+  }
+
+  .navbar-toggler:focus {
+    box-shadow: 0 0 0 0.2rem rgba(254, 66, 77, 0.25) !important;
+  }
+
+  /* Close button styling - you might want to add an X button */
+  .navbar-collapse::before {
+    content: "✕";
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 24px;
+    color: #999;
+    cursor: pointer;
+    z-index: 10000;
+  }
+
+  /* Alternative: Style existing toggle when menu is open */
+  .navbar-toggler[aria-expanded="true"] {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    z-index: 10000 !important;
+    background: white !important;
+    border: 1px solid #ddd !important;
   }
 
   .fa-compass {
@@ -481,27 +578,27 @@ body {
 /* Small Mobile (480px and below) */
 @media (max-width: 480px) {
   /* Navbar mobile adjustments */
-  .navbar {
-    padding: 0.5rem 0.75rem;
-  }
 
   .navbar-collapse {
-    left: 0.75rem;
-    right: 0.75rem;
-    margin-top: 0.75rem;
+    padding: 70px 0 20px 0;
+  }
+
+  .nav-link {
+    padding: 18px 20px !important;
+    font-size: 16px !important;
+  }
+
+  .nav-link:hover {
+    padding-left: 30px !important;
+  }
+
+  .navbar {
+    padding: 10px 15px !important;
+    min-height: 55px !important;
   }
 
   .navbar-brand {
     font-size: 1.1rem;
-  }
-
-  .nav-link {
-    padding: 1rem !important;
-    font-size: 0.95rem;
-  }
-
-  .nav-link:hover {
-    padding-left: 1.5rem !important;
   }
 
   /* Content adjustments */
@@ -614,6 +711,13 @@ body {
   .filter p {
     font-size: 0.7rem;
   }
+}
+
+/* Prevent body scroll when menu is open */
+body.menu-open {
+  overflow: hidden !important;
+  position: fixed !important;
+  width: 100% !important;
 }
 
 /* Extra Small Screens (320px and below) */
@@ -755,6 +859,14 @@ body {
 
 .navbar-collapse {
   visibility: visible !important;
+}
+
+.nav-link {
+  transition: all 0.2s ease !important;
+}
+
+.navbar-collapse {
+  transition: all 0.3s ease-in-out !important;
 }
 
 .navbar-nav .nav-link {
