@@ -23,6 +23,8 @@ const userRouter = require("./routes/user.js");
 const Port = 8080;
 const dbUrl = process.env.ATLASDB_URL;
 
+let isAppWarmedUp = false;
+
 main()
   .then(() => {
     console.log("Connect to DB");
@@ -97,6 +99,23 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render("error.ejs", { message });
   //   res.status(statusCode).send(message);
 });
+
+app.use((req, res, next) => {
+  // Show loading page only on first visit to home page during cold start
+  if (
+    req.path === "/" &&
+    !isAppWarmedUp &&
+    process.env.SHOW_LOADING === "true"
+  ) {
+    return res.sendFile(path.join(__dirname, "public", "loading.html"));
+  }
+  next();
+});
+
+// Mark app as warmed up after 30 seconds
+setTimeout(() => {
+  isAppWarmedUp = true;
+}, 30000);
 
 app
   .listen(Port, () => {

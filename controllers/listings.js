@@ -209,6 +209,47 @@ module.exports.updateListing = async (req, res) => {
   }
 };
 
+//Search functionality
+module.exports.index = async (req, res) => {
+  try {
+    let { search, category } = req.query;
+    let query = {};
+    let searchApplied = false;
+
+    // Build search query
+    if (search && search.trim() !== "") {
+      searchApplied = true;
+      const searchRegex = new RegExp(search.trim(), "i");
+      query.$or = [
+        { title: searchRegex },
+        { description: searchRegex },
+        { location: searchRegex },
+        { country: searchRegex },
+      ];
+    }
+
+    // Add category filter
+    if (category && category !== "all") {
+      query.category = category;
+    }
+
+    // Fetch listings based on query
+    const allListings = await Listing.find(query).populate("owner");
+
+    // Pass search parameters to the view
+    res.render("listings/index", {
+      allListings,
+      searchTerm: search || "",
+      selectedCategory: category || "all",
+      searchApplied: searchApplied,
+    });
+  } catch (error) {
+    console.error("Search error:", error);
+    req.flash("error", "Something went wrong while fetching listings!");
+    res.redirect("/listings");
+  }
+};
+
 module.exports.destroyListing = async (req, res) => {
   let { id } = req.params;
   let deletedListing = await Listing.findByIdAndDelete(id);

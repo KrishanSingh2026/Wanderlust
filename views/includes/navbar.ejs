@@ -2,66 +2,53 @@
   /* Search Bar Styles */
   .search-form {
     margin: 0 auto;
+    max-width: 400px;
   }
 
-  .search-bar {
+  .search-container {
     display: flex;
     align-items: center;
     background: white;
     border: 1px solid #dddddd;
     border-radius: 40px;
-    padding: 0;
+    padding: 20px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
     transition: all 0.2s ease;
     height: 48px;
   }
 
-  .search-bar:hover {
+  .search-container:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
   }
 
-  .search-info {
-    display: flex;
-    align-items: center;
-    padding: 0 16px;
-    height: 100%;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+  .search-container:focus-within {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+    border-color: #fe424d;
+  }
+
+  .search-input {
+    border: none;
+    outline: none;
+    flex: 1;
+    padding: 0 20px;
     font-size: 14px;
-    font-weight: 500;
-    color: #222222;
-    white-space: nowrap;
+    background: transparent;
   }
 
-  .search-info:hover {
-    background-color: #f7f7f7;
-  }
-
-  .search-info:first-child {
-    border-radius: 40px 0 0 40px;
-  }
-
-  .search-info:last-of-type {
-    border-radius: 0 40px 40px 0;
+  .search-input::placeholder {
     color: #717171;
-  }
-
-  .divider {
-    width: 1px;
-    height: 24px;
-    background-color: #dddddd;
   }
 
   .search-btn {
     background: #fe424d;
     border: none;
     border-radius: 50%;
-    width: 32px;
-    height: 32px;
+    width: 38px;
+    height: 38px;
+    margin: 8px 0 0 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 8px;
     cursor: pointer;
     transition: background-color 0.2s ease;
   }
@@ -72,28 +59,52 @@
 
   .search-btn i {
     color: white;
+    font-size: 14px;
+  }
+
+  .clear-search-btn {
+    background: #6c757d;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-right: 5px;
+  }
+
+  .clear-search-btn:hover {
+    background: #5a6268;
+  }
+
+  .clear-search-btn i {
+    color: white;
     font-size: 12px;
   }
 
   @media (max-width: 991.98px) {
     .search-form {
-      display: none;
+      max-width: 300px;
     }
   }
 
   @media (max-width: 768px) {
-    .search-form,
-    .search-bar {
-      display: none !important;
+    .search-form {
+      width: 100%;
+      max-width: none;
+      margin: 10px 0;
     }
   }
 </style>
 
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/listings"
-      ><i class="fa-regular fa-compass"></i
-    ></a>
+    <a class="navbar-brand" href="/listings">
+      <i class="fa-regular fa-compass"></i>
+    </a>
     <button
       class="navbar-toggler"
       type="button"
@@ -107,19 +118,35 @@
         <a class="nav-link" href="/listings">Explore</a>
       </div>
       <div class="navbar-nav ms-auto justify-content-center">
-        <form class="d-flex search-form" role="search">
-          <div class="search-bar">
-            <div class="search-info">
-              <i class="fa-solid fa-house"></i> Anywhere
-            </div>
-            <div class="divider"></div>
-            <div class="search-info">Anytime</div>
-            <div class="divider"></div>
-            <div class="search-info">Add guests</div>
-            <button class="search-btn" type="submit">
-              <i class="fa-solid fa-magnifying-glass search-Icon"></i>
+        <form
+          class="d-flex search-form"
+          role="search"
+          method="GET"
+          action="/listings"
+        >
+          <div class="search-container">
+            <% if (locals.searchTerm && searchTerm.trim() !== '') { %>
+            <button type="button" class="clear-search-btn" id="clearSearchBtn">
+              <i class="fa-solid fa-times"></i>
             </button>
+            <% } %>
+            <input
+              type="text"
+              name="search"
+              placeholder="Search destinations"
+              class="search-input"
+              value="<%= typeof searchTerm !== 'undefined' ? searchTerm : '' %>"
+            />
+            <input
+              type="hidden"
+              name="category"
+              value="<%= typeof selectedCategory !== 'undefined' ? selectedCategory : 'all' %>"
+              id="hiddenCategory"
+            />
           </div>
+          <button class="search-btn" type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
         </form>
       </div>
 
@@ -135,3 +162,21 @@
     </div>
   </div>
 </nav>
+
+<script>
+  // Clear search functionality
+  const clearSearchBtn = document.getElementById("clearSearchBtn");
+  if (clearSearchBtn) {
+    clearSearchBtn.addEventListener("click", () => {
+      window.location.href = "/listings";
+    });
+  }
+
+  // Update hidden category field when category filter is clicked
+  function updateSearchCategory(category) {
+    const hiddenCategoryField = document.getElementById("hiddenCategory");
+    if (hiddenCategoryField) {
+      hiddenCategoryField.value = category;
+    }
+  }
+</script>

@@ -1,5 +1,13 @@
 const User = require("../models/user");
 
+module.exports.renderHomePage = (req, res) => {
+  try {
+    res.render("users/home.ejs");
+  } catch (err) {
+    res.status(500).send("Error loading welcome page");
+  }
+};
+
 module.exports.renderSignupForm = (req, res) => {
   res.render("users/signup.ejs");
 };
