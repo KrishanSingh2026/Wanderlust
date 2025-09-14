@@ -85,14 +85,14 @@ app.use((req, res, next) => {
   next();
 });
 
+// LOADING SCREEN
 app.use((req, res, next) => {
-  // Show loading page during cold start
-  if (
-    req.path === "/" &&
-    !isAppWarmedUp &&
-    process.env.SHOW_LOADING === "true"
-  ) {
-    return res.sendFile(path.join(__dirname, "public", "loading.html"));
+  if (req.path === "/" && process.env.SHOW_LOADING === "true") {
+    // Show loading if app recently restarted OR first visit in this session
+    if (!isAppWarmedUp || !req.session.hasSeenApp) {
+      req.session.hasSeenApp = true;
+      return res.sendFile(path.join(__dirname, "public", "loading.html"));
+    }
   }
   next();
 });
