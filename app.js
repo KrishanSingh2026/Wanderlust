@@ -85,23 +85,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/listings", listingRouter);
-app.use("/listings/:id/reviews", reviewRouter);
-app.use("/", userRouter);
-
-// Handle all unmatched routes
 app.use((req, res, next) => {
-  next(new ExpressError(404, "Page Not Found!"));
-});
-
-app.use((err, req, res, next) => {
-  let { statusCode = 500, message = "Something went wrong!" } = err;
-  res.status(statusCode).render("error.ejs", { message });
-  //   res.status(statusCode).send(message);
-});
-
-app.use((req, res, next) => {
-  // Show loading page only on first visit to home page during cold start
+  // Show loading page during cold start
   if (
     req.path === "/" &&
     !isAppWarmedUp &&
@@ -116,6 +101,21 @@ app.use((req, res, next) => {
 setTimeout(() => {
   isAppWarmedUp = true;
 }, 30000);
+
+app.use("/listings", listingRouter);
+app.use("/listings/:id/reviews", reviewRouter);
+app.use("/", userRouter);
+
+// Handle all unmatched routes
+app.use((req, res, next) => {
+  next(new ExpressError(404, "Page Not Found!"));
+});
+
+app.use((err, req, res, next) => {
+  let { statusCode = 500, message = "Something went wrong!" } = err;
+  res.status(statusCode).render("error.ejs", { message });
+  //   res.status(statusCode).send(message);
+});
 
 app
   .listen(Port, () => {
