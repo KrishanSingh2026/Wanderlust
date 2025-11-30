@@ -20,8 +20,10 @@ const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
-const Port = 8080;
+const Port = process.env.PORT || 8080;
 const dbUrl = process.env.ATLASDB_URL;
+console.log("DB URL:", dbUrl); // ADD THIS LINE TO SEE WHAT'S BEING READ
+console.log("DB URL type:", typeof dbUrl); // ADD THIS TOO
 
 let isAppWarmedUp = false;
 
