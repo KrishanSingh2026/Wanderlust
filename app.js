@@ -22,8 +22,8 @@ const userRouter = require("./routes/user.js");
 
 const Port = process.env.PORT || 8080;
 const dbUrl = process.env.ATLASDB_URL;
-console.log("DB URL:", dbUrl); // ADD THIS LINE TO SEE WHAT'S BEING READ
-console.log("DB URL type:", typeof dbUrl); // ADD THIS TOO
+console.log("DB URL:", dbUrl);
+console.log("DB URL type:", typeof dbUrl);
 
 let isAppWarmedUp = false;
 
